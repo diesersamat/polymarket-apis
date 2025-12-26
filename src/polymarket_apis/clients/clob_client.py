@@ -896,6 +896,7 @@ class PolymarketClobClient:
         | None = "market",
         sort_direction: Literal["ASC", "DESC"] | None = None,
         show_favorites: bool = False,
+        only_open_orders: bool = False,
     ) -> list[RewardMarket]:
         """
         Search through markets that offer rewards (polymarket.com/rewards items) by query, sorted by different metrics. If query is empty, returns all markets with rewards.
@@ -922,6 +923,8 @@ class PolymarketClobClient:
             params["desc"] = False
         if sort_direction:
             params["desc"] = desc[sort_direction]
+        if only_open_orders:
+            params["onlyOpenOrders"] = only_open_orders
 
         request_args = RequestArgs(method="GET", request_path="/rewards/user/markets")
         headers = create_level_2_headers(self.signer, self.creds, request_args)
